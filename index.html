@@ -1,0 +1,80 @@
+<?php
+$host = "localhost";
+$user = "root";      // Username default XAMPP
+$pass = "";          // Password default XAMPP (kosong)
+$db   = "db_apotek"; // Nama database Anda
+
+$koneksi = mysqli_connect($host, $user, $pass, $db);
+
+if (!$koneksi) {
+    die("Koneksi Database Gagal: " . mysqli_connect_error());
+}
+?>
+<?php include 'koneksi.php'; ?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Apotek</title>
+    <!-- CSS Bootstrap 5 untuk tampilan rapi -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Data Stok Obat Apotek</h2>
+        <a href="tambah.php" class="btn btn-primary">+ Tambah Obat Baru</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Obat</th>
+                        <th>Kategori</th>
+                        <th>Harga Beli</th>
+                        <th>Harga Jual</th>
+                        <th>Stok</th>
+                        <th>Satuan</th>
+                        <th>Kedaluwarsa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Query untuk mengambil data obat gabung dengan tabel kategori_obat
+                    $sql = "SELECT obat.*, kategori_obat.nama_kategori 
+                            FROM obat 
+                            LEFT JOIN kategori_obat ON obat.id_kategori = kategori_obat.id_kategori
+                            ORDER BY obat.id_obat DESC";
+                    $result = mysqli_query($koneksi, $sql);
+                    $no = 1;
+
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr>";
+                            echo "<td>" . $no++ . "</td>";
+                            echo "<td><strong>" . htmlspecialchars($row['nama_obat']) . "</strong></td>";
+                            echo "<td>" . htmlspecialchars($row['nama_kategori'] ?? '-') . "</td>";
+                            echo "<td>Rp " . number_format($row['harga_beli'], 0, ',', '.') . "</td>";
+                            echo "<td>Rp " . number_format($row['harga_jual'], 0, ',', '.') . "</td>";
+                            echo "<td>" . $row['stok'] . "</td>";
+                            echo "<td>" . htmlspecialchars($row['satuan']) . "</td>";
+                            echo "<td>" . $row['expired_date'] . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='8' class='text-center'>Belum ada data obat.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
