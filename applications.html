@@ -1,79 +1,640 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Bitnami: Open Source. Simplified</title>
-  <link href="bitnami.css" media="all" rel="Stylesheet" type="text/css" /> 
-  <link href="/dashboard/stylesheets/all.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
-  <div class="contain-to-grid">
-    <nav class="top-bar" data-topbar>
-      <ul class="title-area">
-        <li class="name">
-          <h1><a href="/dashboard/index.html">Apache Friends</a></h1>
-        </li>
-        <li class="toggle-topbar menu-icon">
-          <a href="#">
-            <span>Menu</span>
-          </a>
-        </li>
-      </ul>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Applications | Apache Friends</title>
+    <style>
+      :root {
+        --primary: #1d4e89;
+        --primary-dark: #143a6b;
+        --secondary: #f6b73c;
+        --bg: #f4f7fb;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --line: #dfe7f3;
+        --success: #17a673;
+      }
 
-      <section class="top-bar-section">
-        <!-- Right Nav Section -->
-        <ul class="right">
-          <li class="active"><a href="/applications.html">Applications</a></li>
-          <li class=""><a href="/dashboard/faq.html">FAQs</a></li>
-          <li class=""><a href="/dashboard/howto.html">HOW-TO Guides</a></li>
-          <li class=""><a target="_blank" href="/dashboard/phpinfo.php">PHPInfo</a></li>
-          <li class=""><a href="/phpmyadmin/">phpMyAdmin</a></li>
-        </ul>
-      </section>
-    </nav>
-  </div>
-  <div id="wrapper">
-    <div class="hero">
-       <div class="row">
-         <div class="large-12 columns">
-            <p>Apache Friends and Bitnami are cooperating to make dozens of open source applications available on XAMPP, for free. Bitnami-packaged applications include Wordpress, Drupal, Joomla! and dozens of others and can be deployed with one-click installers. Visit the <a href="https://bitnami.com/xampp?utm_source=bitnami&utm_medium=installer&utm_campaign=XAMPP%2BModule" target="_blank">Bitnami XAMPP page</a> for details on the currently available apps.</p><br/>
-            <p>Check out our <a href="https://www.apachefriends.org/bitnami_for_xampp.html" target="_blank" >Bitnami for XAMPP Start Guide</a> for more information about the applications installed.</p>
-         </div>
-       </div>
-    </div>
-    <div id="lowerContainer" class="row">
-      <div id="content" class="large-12 columns">
-          <!-- @@BITNAMI_MODULE_PLACEHOLDER@@ -->
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1200px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        box-shadow: 0 2px 12px rgba(20, 58, 107, 0.15);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 76px;
+        gap: 20px;
+      }
+
+      .brand {
+        font-weight: 700;
+        font-size: 1.7rem;
+        letter-spacing: 0.03em;
+        color: #fff;
+      }
+
+      .brand span {
+        color: var(--secondary);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .nav a {
+        color: rgba(255, 255, 255, 0.9);
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 0.98rem;
+        transition: 0.2s ease;
+      }
+
+      .nav a:hover,
+      .nav a.active {
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+      }
+
+      .hero {
+        background: radial-gradient(circle at top left, #edf5ff 0%, #f8fafd 35%, #f4f7fb 100%);
+        padding: 72px 0 52px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 0.9fr;
+        gap: 32px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(29, 78, 137, 0.08);
+        color: var(--primary);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 18px 0 18px;
+        font-size: clamp(2.4rem, 4vw, 4rem);
+        line-height: 1.05;
+        color: var(--text);
+      }
+
+      .lead {
+        margin: 0;
+        font-size: 1.08rem;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 28px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        border: 1px solid transparent;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn.primary {
+        background: var(--primary);
+        color: #fff;
+        box-shadow: 0 8px 18px rgba(29, 78, 137, 0.18);
+      }
+
+      .btn.secondary {
+        background: #fff;
+        color: var(--primary);
+        border-color: var(--line);
+      }
+
+      .stats-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 24px;
+        box-shadow: 0 22px 52px rgba(15, 23, 42, 0.06);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .stat {
+        background: linear-gradient(180deg, #f9fbff 0%, #eef5ff 100%);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 20px 18px;
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 1.8rem;
+        color: var(--primary);
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .section-header {
+        max-width: 680px;
+        margin-bottom: 32px;
+      }
+
+      .section-header h2 {
+        margin: 0 0 12px;
+        font-size: clamp(1.9rem, 2.3vw, 2.6rem);
+      }
+
+      .section-header p {
+        margin: 0;
+        line-height: 1.75;
+        color: var(--muted);
+      }
+
+      .app-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(220px, 1fr));
+        gap: 22px;
+      }
+
+      .app-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .app-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+      }
+
+      .app-thumb {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: #fff;
+      }
+
+      .thumb-wordpress { background: linear-gradient(135deg, #21759b 0%, #1b8dcb 100%); }
+      .thumb-drupal { background: linear-gradient(135deg, #0077c8 0%, #0b4f9a 100%); }
+      .thumb-joomla { background: linear-gradient(135deg, #f58b1f 0%, #d95b0d 100%); }
+      .thumb-magento { background: linear-gradient(135deg, #f36323 0%, #9e2c1e 100%); }
+      .thumb-nextcloud { background: linear-gradient(135deg, #0082c9 0%, #0e6da9 100%); }
+      .thumb-moodle { background: linear-gradient(135deg, #f26b21 0%, #b1490a 100%); }
+      .thumb-phpmyadmin { background: linear-gradient(135deg, #6c5ce7 0%, #4e46af 100%); }
+      .thumb-php { background: linear-gradient(135deg, #8892bf 0%, #4d5b94 100%); }
+
+      .app-body {
+        padding: 18px 18px 20px;
+      }
+
+      .app-meta {
+        display: inline-block;
+        margin-bottom: 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--primary);
+      }
+
+      .app-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.25rem;
+      }
+
+      .app-card p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.95rem;
+      }
+
+      .app-link {
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .feature-strip {
+        background: #fff;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 26px;
+        padding: 28px 0;
+      }
+
+      .feature {
+        padding: 18px;
+        border-radius: 16px;
+        background: linear-gradient(180deg, #fafcff 0%, #f3f8ff 100%);
+        border: 1px solid var(--line);
+      }
+
+      .feature-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        background: rgba(29, 78, 137, 0.08);
+        color: var(--primary);
+        font-size: 1.5rem;
+        margin-bottom: 14px;
+      }
+
+      .feature h3 {
+        margin: 0 0 10px;
+      }
+
+      .feature p {
+        margin: 0;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      footer {
+        background: #0f172a;
+        color: rgba(255, 255, 255, 0.85);
+        padding: 40px 0 50px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        gap: 30px;
+      }
+
+      .footer-title {
+        color: #fff;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      .footer-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 10px;
+      }
+
+      .footer-list a {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .socials {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .socials a {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+
+      .copyright {
+        margin-top: 22px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+        color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .footer-grid,
+        .app-grid,
+        .feature-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar-inner {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 18px 0;
+        }
+
+        .nav {
+          gap: 8px;
+        }
+
+        .nav a {
+          padding: 8px 10px;
+          font-size: 0.85rem;
+        }
+
+        .app-grid,
+        .feature-grid,
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="/dashboard/index.html" class="brand">Apache <span>Friends</span></a>
+        <nav class="nav" aria-label="Main navigation">
+          <a class="active" href="/applications.html">Applications</a>
+          <a href="/dashboard/faq.html">FAQs</a>
+          <a href="/dashboard/howto.html">HOW-TO Guides</a>
+          <a href="/dashboard/phpinfo.php" target="_blank">PHPInfo</a>
+          <a href="/phpmyadmin/">phpMyAdmin</a>
+        </nav>
       </div>
-    </div>
-  </div>
-  <footer>
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="row">
-          <div class="large-8 columns">
-            <ul class="social">
-              <li class="twitter"><a href="https://twitter.com/apachefriends">Follow us on Twitter</a></li>
-              <li class="facebook"><a href="https://www.facebook.com/we.are.xampp">Like us on Facebook</a></li>
-              <li class="google"><a href="https://plus.google.com/+xampp/posts">Add us to your G+ Circles</a></li>
-            </ul>
+    </header>
 
-            <ul class="inline-list">
-              <li><a href="https://www.apachefriends.org/blog.html">Blog</a></li>
-              <li><a href="https://www.apachefriends.org/privacy_policy.html">Privacy Policy</a></li>
-              <li>
-                <a target="_blank" href="http://www.fastly.com/">                    CDN provided by
-                  <img width="48" data-2x="/dashboard/images/fastly-logo@2x.png" src="/dashboard/images/fastly-logo.png" />
-                </a>
-              </li>
-            </ul>
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">Open Source Apps</span>
+            <h1>Build, deploy, and manage your web stack faster.</h1>
+            <p class="lead">
+              Apache Friends and Bitnami are cooperating to make dozens of open source applications available on XAMPP,
+              for free. Bitnami-packaged applications include WordPress, Drupal, Joomla!, and many more ready to run.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#applications">Browse Apps</a>
+              <a class="btn secondary" href="https://www.apachefriends.org/bitnami_for_xampp.html" target="_blank">Start Guide</a>
+            </div>
           </div>
-          <div class="large-4 columns">
-            <p class="text-right">Copyright (c) 2015, Apache Friends</p>
+
+          <div class="stats-card">
+            <div class="eyebrow">Why choose XAMPP</div>
+            <div class="stats-grid">
+              <div class="stat">
+                <strong>50+</strong>
+                <span>Applications</span>
+              </div>
+              <div class="stat">
+                <strong>100%</strong>
+                <span>Open source</span>
+              </div>
+              <div class="stat">
+                <strong>1-Click</strong>
+                <span>Setup</span>
+              </div>
+              <div class="stat">
+                <strong>24/7</strong>
+                <span>Local dev</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="feature-strip">
+        <div class="container feature-grid">
+          <div class="feature">
+            <div class="feature-icon">⚡</div>
+            <h3>Fast Setup</h3>
+            <p>Install and run popular development stacks in minutes without manual server configuration.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🔒</div>
+            <h3>Safe &amp; Stable</h3>
+            <p>Trusted open source software packed for local development, demos, and testing environments.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">🌍</div>
+            <h3>Developer Friendly</h3>
+            <p>Access rich ecosystems for CMS, e-commerce, collaboration, and education platforms.</p>
           </div>
         </div>
       </div>
-    </div>
-  </footer>
-</body>
+
+      <section id="applications" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Popular applications you can install</h2>
+            <p>
+              Explore a curated selection of widely used software packages that run effortlessly on XAMPP.
+            </p>
+          </div>
+
+          <div class="app-grid">
+            <article class="app-card">
+              <div class="app-thumb thumb-wordpress">WP</div>
+              <div class="app-body">
+                <span class="app-meta">CMS</span>
+                <h3>WordPress</h3>
+                <p>Publish content quickly with the world’s most popular blogging and website platform.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-thumb thumb-drupal">D</div>
+              <div class="app-body">
+                <span class="app-meta">CMS</span>
+                <h3>Drupal</h3>
+                <p>Build flexible, scalable websites and web applications with a modular architecture.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-thumb thumb-joomla">J</div>
+              <div class="app-body">
+                <span class="app-meta">CMS</span>
+                <h3>Joomla!</h3>
+                <p>Create dynamic sites with a strong framework for content management and community tools.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-thumb thumb-magento">M</div>
+              <div class="app-body">
+                <span class="app-meta">E-commerce</span>
+                <h3>Magento</h3>
+                <p>Power online stores with a robust commerce platform built for growth and customization.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-thumb thumb-nextcloud">N</div>
+              <div class="app-body">
+                <span class="app-meta">Collaboration</span>
+                <h3>Nextcloud</h3>
+                <p>Host your own cloud storage and file-sharing environment for secure team productivity.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-thumb thumb-moodle">ML</div>
+              <div class="app-body">
+                <span class="app-meta">Education</span>
+                <h3>Moodle</h3>
+                <p>Deliver online learning experiences with assignments, courses, and collaborative tools.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-thumb thumb-phpmyadmin">PM</div>
+              <div class="app-body">
+                <span class="app-meta">Database</span>
+                <h3>phpMyAdmin</h3>
+                <p>Manage MySQL databases visually with a friendly web interface for developers and admins.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-thumb thumb-php">PHP</div>
+              <div class="app-body">
+                <span class="app-meta">Stack</span>
+                <h3>PHP Apps</h3>
+                <p>Run modern PHP applications and frameworks within a ready-to-use local development stack.</p>
+                <a class="app-link" href="#">Learn more →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-title">Apache Friends</div>
+            <p>
+              An open source web server solution for local development, education, and application testing.
+            </p>
+            <div class="socials">
+              <a href="https://twitter.com/apachefriends" target="_blank">Twitter</a>
+              <a href="https://www.facebook.com/we.are.xampp" target="_blank">Facebook</a>
+              <a href="https://plus.google.com/+xampp/posts" target="_blank">Google+</a>
+            </div>
+          </div>
+
+          <div>
+            <div class="footer-title">Resources</div>
+            <ul class="footer-list">
+              <li><a href="https://www.apachefriends.org/blog.html" target="_blank">Blog</a></li>
+              <li><a href="https://www.apachefriends.org/privacy_policy.html" target="_blank">Privacy Policy</a></li>
+              <li><a href="https://www.apachefriends.org/bitnami_for_xampp.html" target="_blank">Bitnami Guide</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="footer-title">Quick Links</div>
+            <ul class="footer-list">
+              <li><a href="/applications.html">Applications</a></li>
+              <li><a href="/dashboard/faq.html">FAQ</a></li>
+              <li><a href="/dashboard/howto.html">How-To Guides</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="copyright">
+          <span>Copyright (c) 2015, Apache Friends</span>
+          <span>CDN provided by <a href="http://www.fastly.com/" target="_blank">Fastly</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
